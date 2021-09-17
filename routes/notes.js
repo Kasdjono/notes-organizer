@@ -14,11 +14,11 @@ notes.get('/', (req, res) => {
 
 // GET Route for a specific tip
 notes.get('/:id', (req, res) => {
-  const tipId = req.params.id;
+  const noteId = req.params.id;
   readFromFile('./db/db.json')
     .then((data) => JSON.parse(data))
     .then((json) => {
-      const result = json.filter((note) => note.tip === noteId);
+      const result = json.filter((note) => note.Id === noteId);
       return result.length > 0
         ? res.json(result)
         : res.json('No note with that ID');
@@ -27,12 +27,12 @@ notes.get('/:id', (req, res) => {
 
 // DELETE Route for a specific tip
 notes.delete('/:id', (req, res) => {
-  const tipId = req.params.id;
+  const noteId = req.params.id;
   readFromFile('./db/db.json')
     .then((data) => JSON.parse(data))
     .then((json) => {
       // Make a new array of all notes except the one with the ID provided in the URL
-      const result = json.filter((note) => note.tip !== noteId);
+      const result = json.filter((note) => note.id !== noteId);
 
       // Save that array to the filesystem
       writeToFile('./db/db.json', result);
